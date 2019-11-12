@@ -146,6 +146,7 @@ class _DashboardState extends State<Dashboard> {
     } catch (e) {
       setState(() {
         carbonValue = Random().nextInt(30);
+        widget.updateCarbonValue(carbonValue);
       });
     }
 
