@@ -10,7 +10,7 @@ class RecommendationPage extends StatefulWidget {
 
 class _RecommendationPageState extends State<RecommendationPage> {
   final TextEditingController _searchQuery = new TextEditingController();
-  
+
   final ScrollController _scrollController = new ScrollController();
   final double cardInitHeight = 120;
   final double cardExpanHeight = 300;
@@ -49,8 +49,11 @@ class _RecommendationPageState extends State<RecommendationPage> {
         children: <Widget>[
           _buildSearchBar(),
           Padding(
-            padding: const EdgeInsets.only(top:8.0,left: 8.0),
-            child: Text("November 2019",style: TextStyle(fontSize: 30),),
+            padding: const EdgeInsets.only(top: 8.0, left: 8.0),
+            child: Text(
+              "November 2019",
+              style: TextStyle(fontSize: 30),
+            ),
           ),
           Divider(),
           FutureBuilder(
@@ -65,7 +68,8 @@ class _RecommendationPageState extends State<RecommendationPage> {
                     shrinkWrap: true,
                     controller: _scrollController,
                     itemBuilder: (context, index) {
-                      final ExpandableController _expandableController = new ExpandableController();
+                      final ExpandableController _expandableController =
+                          new ExpandableController();
                       return Container(
                         child: ExpandablePanel(
                           hasIcon: false,
@@ -95,11 +99,15 @@ class _RecommendationPageState extends State<RecommendationPage> {
                                         width: 10,
                                       ),
                                       Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
                                         children: <Widget>[
-                                          SizedBox(height: 10,),
+                                          SizedBox(
+                                            height: 10,
+                                          ),
                                           Text(
-                                            data[index]["carbonValue"]+" kg of CO2",
+                                            data[index]["carbonValue"] +
+                                                " kg of CO2",
                                             style: TextStyle(
                                                 fontSize: 20,
                                                 fontWeight: FontWeight.w700),
@@ -121,40 +129,17 @@ class _RecommendationPageState extends State<RecommendationPage> {
                                     itemCount: data[index]["products"].length,
                                     physics: ClampingScrollPhysics(),
                                     itemBuilder: (context, j) {
-                                      final ExpandableController _expandableController2 = new ExpandableController();
+                                      final ExpandableController
+                                          _expandableController2 =
+                                          new ExpandableController();
                                       return Padding(
                                         padding: const EdgeInsets.only(
                                             top: 5, bottom: 5),
                                         child: ExpandablePanel(
                                           controller: _expandableController2,
                                           hasIcon: false,
-                                          expanded: Container(
-                                            height: 200,
-                                            child: ListView.builder(
-                                              shrinkWrap: true,
-                                              scrollDirection: Axis.horizontal,
-                                              itemCount: data[index]["products"][j]["alternatives"].length,
-                                              itemBuilder: (context,k){
-                                                return Card(
-                                                  child: Stack(
-                                                    children: <Widget>[
-                                                      Image.network(data[index]["products"][j]["alternatives"][k]["imageUrl"]),
-                                                      Positioned(
-                                                        left: 0,
-                                                        bottom: 0,
-                                                        child: Container(color: Colors.white.withAlpha(150),width: 300,height: 20,),
-                                                      ),
-                                                      Positioned(
-                                                        left: 5,
-                                                        bottom: 0,
-                                                        child: Text(data[index]["products"][j]["alternatives"][k]["name"]),
-                                                      )
-                                                    ],
-                                                  )
-                                                );
-                                              },
-                                            ),
-                                          ),
+                                          expanded:
+                                              buildAlternatives(data, index, j),
                                           header: Row(
                                             mainAxisAlignment:
                                                 MainAxisAlignment.spaceBetween,
@@ -183,6 +168,16 @@ class _RecommendationPageState extends State<RecommendationPage> {
                                                       Row(
                                                         children: <Widget>[
                                                           Container(
+                                                            decoration: BoxDecoration(
+                                                                color:
+                                                                    Colors.red,
+                                                                borderRadius: BorderRadius.only(
+                                                                    topRight: Radius
+                                                                        .circular(
+                                                                            20),
+                                                                    bottomRight:
+                                                                        Radius.circular(
+                                                                            20))),
                                                             height: 30,
                                                             width: 200 *
                                                                 double.parse(data[
@@ -192,7 +187,6 @@ class _RecommendationPageState extends State<RecommendationPage> {
                                                                     [
                                                                     "percentage"]) /
                                                                 100,
-                                                            color: Colors.red,
                                                           ),
                                                           SizedBox(
                                                             width: 5,
@@ -296,6 +290,45 @@ class _RecommendationPageState extends State<RecommendationPage> {
             },
           )
         ],
+      ),
+    );
+  }
+
+  Container buildAlternatives(data, int index, int j) {
+    return Container(
+      height: 200,
+      child: ListView.builder(
+        shrinkWrap: true,
+        scrollDirection: Axis.horizontal,
+        itemCount: data[index]["products"][j]["alternatives"].length,
+        itemBuilder: (context, k) {
+          return Card(
+              child: Stack(
+            children: <Widget>[
+              Container(
+                width: 200,
+                height: 200,
+                child: Image.network(
+                    data[index]["products"][j]["alternatives"][k]["imageUrl"],fit: BoxFit.cover,),
+              ),
+              Positioned(
+                left: 0,
+                bottom: 0,
+                child: Container(
+                  color: Colors.white.withAlpha(150),
+                  width: 300,
+                  height: 20,
+                ),
+              ),
+              Positioned(
+                left: 5,
+                bottom: 0,
+                child:
+                    Text(data[index]["products"][j]["alternatives"][k]["name"],style: TextStyle(fontWeight: FontWeight.w600),),
+              )
+            ],
+          ));
+        },
       ),
     );
   }

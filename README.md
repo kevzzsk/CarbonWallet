@@ -9,9 +9,9 @@ The application is developed in Flutter under 24hrs.
 
 ![Landing Page](assets/landingpage.gif)
 
-### Home Page
+### Demo
 
-![Home Page](assets/HomePage.png)
+![Demo](assets/demo.gif)
 
 ## test
 
